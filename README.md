@@ -10,3 +10,9 @@ Both [/etc/elogind/logind.conf](/etc/elogind/logind.conf) and [/etc/acpid/defaul
 
 ### Configs
 * https://github.com/elacheche/gentoo-asus-ux410uar
+
+### Useful Resources
+I personally prefer sticking to just the suckless tools and/or their wayland alternatives.
+* [dmenu scripts](https://tools.suckless.org/dmenu/scripts/)
+* [clamiax scripts](https://github.com/clamiax/scripts)
+* [dwl wiki: Migrating from X](https://github.com/djpohly/dwl/wiki#migrating-from-x)
