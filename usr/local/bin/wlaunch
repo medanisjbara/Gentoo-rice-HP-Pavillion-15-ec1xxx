@@ -1,0 +1,7 @@
+#!/bin/bash
+
+WL_DISPLAY_File="$HOME"/.cache/wld
+
+if [ -f "$WL_DISPLAY_File"  ]; then
+  DISPLAY=:$(cat "$WL_DISPLAY_File"|cut -c 9) "$@"WAYLAND_DISPLAY=$(cat "$WL_DISPLAY_File") "$@"
+fi
