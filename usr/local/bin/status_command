@@ -1,0 +1,33 @@
+#!/bin/bash
+
+
+# 💎 💻 💡 🔌 ⚡ 📁 \|
+
+uptime_formatted=$(uptime | cut -d ',' -f1  | cut -d ' ' -f4,5)
+
+battery_status="$(cat /sys/class/power_supply/BAT0/{status,capacity})"
+((${battery_status: -3} > 10)) &&  battery_emoji=🔋 || battery_emoji=🪫
+
+test "$battery_emoji" = '🪫' 
+
+volume="$(pactl get-sink-volume @DEFAULT_SINK@|awk '{print $5}')"
+
+if [ "$(pactl get-sink-mute @DEFAULT_SINK@| cut -d ' ' -f 2)" = "no" ]; then
+  volemoji='🔊'
+else
+  volemoji='🔇'
+fi
+
+if [ "$(pactl get-source-mute @DEFAULT_SOURCE@| cut -d ' ' -f 2)" = "no" ]; then
+  micemoji='🎤'
+else
+  micemoji='👂'
+fi
+
+microphone="$(pactl get-source-volume @DEFAULT_SOURCE@|awk '{print $5}')"
+
+date_formatted=$(date "+%a %F %H:%M")
+
+linux_version=$(uname -r)
+
+echo $1 $uptime_formatted ↑ $linux_version 🐧 $microphone $micemoji $volume $volemoji $battery_status% $battery_emoji $date_formatted

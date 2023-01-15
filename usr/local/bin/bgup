@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# A script that sets the background for you randomly from the wall_dir folder
+# Currently uses swaybg to set the background
+
+wall_dir="$HOME"/Pictures/Wallpapers
+next="$(ls "$wall_dir" | shuf -n 1)"
+
+echo "$next"
+rm -f  "$HOME"/.wallpaper.jpg
+test -n "$next" && ln -s "$wall_dir/$next" "$HOME"/.wallpaper.jpg
+killall swaybg
+swaybg -i "$HOME"/.wallpaper.jpg &
+sleep 0.1
