@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if (($# == 0)); then
+  set -- *
+fi
+du -hs0 "$@" |
+sort -zh |
+sed -z 's/\t/\x00/' |
+while IFS= read -r -d '' size && IFS= read -r -d '' file; do
+   printf "%s " "$size";
+   ls --color -d "$file"
+done
