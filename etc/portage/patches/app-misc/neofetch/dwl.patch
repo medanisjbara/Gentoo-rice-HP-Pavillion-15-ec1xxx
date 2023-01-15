@@ -1,0 +1,12 @@
+diff --git a/neofetch b/neofetch
+index 1e4b564..88be9fd 100755
+--- a/neofetch
++++ b/neofetch
+@@ -1799,6 +1799,7 @@ get_wm() {
+                            -e asc \
+                            -e clayland \
+                            -e dwc \
++                           -e dwl \
+                            -e fireplace \
+                            -e gnome-shell \
+                            -e greenfield \

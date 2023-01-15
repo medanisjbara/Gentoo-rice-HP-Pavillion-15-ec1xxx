@@ -1,0 +1,4 @@
+app-admin/doas persist
+net-misc/aria2 bittorent
+media-video/ffmpeg v4l cuda
+media-video/mpv cplugins libmpv nvenc

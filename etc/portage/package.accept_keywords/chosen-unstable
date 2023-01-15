@@ -1,0 +1,9 @@
+## Kernel
+sys-kernel/gentoo-sources
+
+## ~amd64 packages
+app-admin/doas ~amd64
+
+## 9999 packages
+~gui-wm/dwl-9999 **
+~media-gfx/swayimg-9999 **

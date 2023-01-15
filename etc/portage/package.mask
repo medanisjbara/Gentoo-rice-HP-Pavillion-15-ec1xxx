@@ -1,0 +1,9 @@
+# dwl wlroot-next
+=gui-wm/dwl-9999-r1
+
+# Compilers that take long
+sys-devel/clang
+sys-devel/llvm
+
+# No longer supports openrc
+>=www-misc/profile-sync-daemon-6.0
