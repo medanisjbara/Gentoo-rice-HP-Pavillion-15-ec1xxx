@@ -58,6 +58,7 @@ export EDITOR=vim
 export VISUAL="${EDITOR}"
 export PATH="${HOME}/.local/bin:${PATH}"
 export PATH="${HOME}/.cargo/bin:${PATH}"
+export PATH="/opt/flutter/bin:${PATH}"
 export RANGER_LOAD_DEFAULT_RC=FALSE
 ### Variables
 
