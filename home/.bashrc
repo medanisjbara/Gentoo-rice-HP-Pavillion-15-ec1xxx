@@ -63,7 +63,9 @@ export RANGER_LOAD_DEFAULT_RC=FALSE
 ### Variables
 
 #### Aliases
-source /usr/share/autojump/autojump.bash
+autojump_bash=/usr/share/autojump/autojump.bash
+test -f "$autojump_bash" && source "$autojump_bash"
+unset autojump_bash
 
 if command -v anbox&>/dev/null ; then
   alias startanbox='anbox launch --package=org.anbox.appmgr --component=org.anbox.appmgr.AppViewActivity'
