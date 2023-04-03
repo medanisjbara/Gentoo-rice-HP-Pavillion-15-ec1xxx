@@ -9,6 +9,7 @@ Both [/etc/elogind/logind.conf](/etc/elogind/logind.conf) and [/etc/acpid/defaul
 ## See also
 ### Dotfiles
 * https://git.jonathanh.co.uk/jab2870/Dotfiles/
+* https://git.arrayinamatrix.xyz/array-in-a-matrix/dotfiles
 
 ### Configs
 * https://github.com/elacheche/gentoo-asus-ux410uar
