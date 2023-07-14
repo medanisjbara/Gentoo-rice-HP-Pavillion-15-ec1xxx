@@ -1,33 +1,77 @@
-#!/bin/bash
+#!/bin/sh
 
+# Function to get the current date and time
+get_datetime() {
+    date +"📅 %a, %d %b %Y | ⏰ %H:%M:%S"
+}
 
-# 💎 💻 💡 🔌 ⚡ 📁 \|
+# Function to get the current system resource usage
+get_resource_usage() {
+    memory=$(free -h | awk '/^Mem/ {print "💾 " $3 " / " $2}')
+    cpu=$(top -bn1 | grep '%Cpu' | awk '{print "💻 " $2 "%"}')
+    echo "$memory $cpu"
+}
 
-uptime_formatted=$(uptime | cut -d ',' -f1  | cut -d ' ' -f4,5)
+# Function to get the current battery status
+get_battery_status() {
+    battery=$(cat /sys/class/power_supply/BAT0/capacity)
+    status=$(cat /sys/class/power_supply/BAT0/status)
+    battery_emoji="🔋"
 
-battery_status="$(cat /sys/class/power_supply/BAT0/{status,capacity})"
-((${battery_status: -3} > 10)) &&  battery_emoji=🔋 || battery_emoji=🪫
+    case $status in
+        "Discharging")
+            status_emoji="D"
+            ;;
+        "Charging")
+            status_emoji="C"
+            ;;
+        *)
+            status_emoji=$status
+            ;;
+    esac
 
-test "$battery_emoji" = '🪫' 
+    if [ "$battery" -lt 20 ]; then
+        battery_emoji="🪫"
+    fi
+    echo "$battery_emoji: $battery% ($status_emoji)"
+}
 
-volume="$(pactl get-sink-volume @DEFAULT_SINK@|awk '{print $5}')"
+# Function to get the current volume status
+get_volume_status() {
+    volume=$(amixer sget Master | awk -F"[][]" '/%/ { print $2 }')
+    mute=$(amixer sget Master | grep -o "\[off\]")
+    volume_emoji="🔊"
+    if [ "$mute" = "[off]" ]; then
+        volume_emoji="🔇"
+    fi
+    echo "$volume_emoji: $volume"
+}
 
-if [ "$(pactl get-sink-mute @DEFAULT_SINK@| cut -d ' ' -f 2)" = "no" ]; then
-  volemoji='🔊'
-else
-  volemoji='🔇'
-fi
+# Function to get the current microphone status
+get_microphone_status() {
+    microphone=$(amixer sget Capture | awk -F"[][]" '/%/ { printf " * %s * ", $2 }')
+    mute=$(amixer sget Capture | grep -o "\[off\]")
+    microphone_emoji="🎤"
+    if [ "$mute" = "[off]" ]; then
+        microphone_emoji="👂"
+    fi
+    echo "$microphone_emoji: $microphone"
+}
 
-if [ "$(pactl get-source-mute @DEFAULT_SOURCE@| cut -d ' ' -f 2)" = "no" ]; then
-  micemoji='🎤'
-else
-  micemoji='👂'
-fi
+# Function to get the current network status
+get_network_status() {
+    ssid=$(iwgetid -r)
+    ip=$(ip -4 address show | grep inet | awk '{print "🌐 " $2}' | tail -1)
+    echo "$ssid $ip"
+}
 
-microphone="$(pactl get-source-volume @DEFAULT_SOURCE@|awk '{print $5}')"
-
-date_formatted=$(date "+%a %F %H:%M")
-
-linux_version=$(uname -r)
-
-echo $1 $uptime_formatted ↑ $linux_version 🐧 $microphone $micemoji $volume $volemoji $battery_status% $battery_emoji $date_formatted
+# Main loop
+while true; do
+    # Update the status bar of dwl (somebar)
+    if test -p "${XDG_RUNTIME_DIR}/somebar-0"; then
+        status_text="$(get_resource_usage) | $(get_battery_status) | $(get_volume_status) | $(get_microphone_status) | $(get_network_status) | $(get_datetime)"
+        echo "status $status_text" > "${XDG_RUNTIME_DIR}/somebar-0"
+    fi
+    # Update the status every 1 second
+    sleep 1
+done
